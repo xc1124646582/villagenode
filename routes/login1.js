@@ -20,7 +20,8 @@ var router=express.Router();
 router.post('/zhinquiry',function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
 	var user=req.body["user"]
-	pool.query(`select * from owner where user="${user}"`,function(err,rows){
+	var pass=req.body["pass"]
+	pool.query(`select * from owner where user="${user}"  and  pass="${pass}"`,function(err,rows){
 		if(err) throw err;
 		res.send(rows);
 	})

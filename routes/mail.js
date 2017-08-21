@@ -26,7 +26,7 @@ router.post('/yzmail',function(req,res){
 	var name=req.body["name"]
     var village=req.body["village"]
 //	var address=req.body["address"]
-		pool.query(`select * from mail where  name="${name}" `, function(err, rows, fields) {
+		pool.query(`select * from mail where  name="${name}" and  village="${village}"`, function(err, rows, fields) {
 		if (err) throw err;
 	  	res.send(rows)
 	});
