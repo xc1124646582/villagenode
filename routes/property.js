@@ -1,6 +1,7 @@
 var express=require("express");
 var mysql=require("mysql");
-var pool=require("./../config.js");
+var pool=require("./../config.js")
+;
 var router=express.Router();
 
 
