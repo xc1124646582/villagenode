@@ -43,6 +43,21 @@ router.post('/rhminquiry',function(req,res){
 })
 
 
+
+
+//注册   查询账号
+router.post('/zczhminquiry',function(req,res){
+	res.header("Access-Control-Allow-Origin", "*");
+	var user=req.body["user"]
+	pool.query(`select * from owner where user="${user}"`,function(err,rows){
+		if(err) throw err;
+		res.send(rows);
+	})
+})
+
+
+
+
 //注册   传入上个页面保存的id    参数   id  user  pass
 router.post('/zcminquiry',function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");

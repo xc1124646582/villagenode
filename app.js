@@ -12,6 +12,7 @@ var property = require('./routes/property');
 var forum = require('./routes/forum');
 var mail = require('./routes/mail');
 var guarantee = require('./routes/guarantee');
+var owner = require('./routes/owner');
 
 var app = express();
 
@@ -33,6 +34,8 @@ app.use('/login1', login1);
 app.use('/forum', forum);
 app.use('/mail', mail);
 app.use('/guarantee', guarantee);
+app.use('/owner', owner);
+app.use('/property', property);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
