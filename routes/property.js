@@ -20,4 +20,17 @@ router.post('/wydenglu',function(req,res){
 })
 
 
+
+
+//！！物业信息查询
+router.post('/wychaxun',function(req,res){
+	res.header("Access-Control-Allow-Origin", "*");
+	var id=req.body["id"]
+	pool.query(`select * from property where id="${id}"`,function(err,rows){
+		if(err) throw err;
+		res.send(rows);
+	})
+})
+
+
 module.exports=router;
