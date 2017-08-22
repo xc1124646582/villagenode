@@ -41,7 +41,7 @@ router.post('/wyguarantee',function(req,res){
 router.post('/wyguarantees',function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
 	var id=req.body["id"]  
-	pool.query(`update guarantee set  indexs=1 where id=7`, function(err, rows, fields) {
+	pool.query(`update guarantee set  indexs=1 where id=${id}`, function(err, rows, fields) {
 		if(err) throw err;
 		res.send(rows);
 	});

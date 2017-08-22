@@ -26,7 +26,7 @@ router.post('/wymail',function(req,res){
 router.post('/wymailjs',function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
 	var id=req.body["id"]
-	pool.query(`update mail set  indexs=1 where id=7`, function(err, rows, fields) {
+	pool.query(`update mail set  indexs=1 where id=${id}`, function(err, rows, fields) {
 		if(err) throw err;
 		res.send(rows);
 	});
