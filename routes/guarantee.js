@@ -11,9 +11,9 @@ router.post('/yzguarantee',function(req,res){
 	var con=req.body["con"]
 	var village=req.body["village"]  //小区
 	var address=req.body["address"]   //门牌号
-	console.log(village,address)
+	console.log(village,address)	
 	pool.query(`insert into guarantee(con,village,address) values("${con}","${village}","${address}")`,function(err,rows){
-		pool.query(`SELECT * from guarantee  where  address="${address}" and indexs=0 and village="${village}"`, function(err, rows, fields) {
+	pool.query(`SELECT * from guarantee  where  address="${address}" and indexs=0 and village="${village}"`, function(err, rows, fields) {
 		if (err) throw err;
 	  	res.send(rows)
 	});
