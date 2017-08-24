@@ -25,6 +25,24 @@ router.post('/wyhuodong',function(req,res){
 })
 
 
+//！！物业查看活动参加情况
+//
+//参数     village 小区  
+router.post('/wyhuodongs',function(req,res){
+	res.header("Access-Control-Allow-Origin", "*");
+	var village=req.body["village"]
+	pool.query(`select * from activity where village="${village}"`,function(err,rows){
+		if(err) throw err;
+		res.send(rows);
+	})
+})
+
+
+
+
+
+
+
 //！！业主接收活动通知
 //
 //参数  village 小区   id 业主的id
