@@ -49,8 +49,11 @@ router.post('/wyzhuhu',function(req,res){
 	var qs=[]
 	var village=req.body["village"]
 	var name=req.body["name"]
-	var con=req.body["con"]
-	pool.query(`insert into owner(name,con,village,owner) values("${name}","${con}","${village}",1)`,function(err,rows){
+	var family=req.body["family"]
+	var phone=req.body["phone"]
+	var sex=req.body["sex"]
+	var homeyard=req.body["homeyard"]
+	pool.query(`insert into owner(name,family,village,owner,phone,sex,homeyard) values("${name}","${family}","${village}",1,"${phone}","${sex}","${homeyard}")`,function(err,rows){
 	pool.query(`select * from owner where village="${village}"`,function(err,rows){
 		if(err) throw err;
 		for(var i in rows){
