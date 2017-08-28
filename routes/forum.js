@@ -5,7 +5,7 @@ var router=express.Router();
 
 var fs=require('fs');   //重新命名
 var formidable=require('formidable');   //写入文件
-var imgs
+var imgs=null
 
 
 
@@ -61,21 +61,178 @@ router.post('/img',function(req,res){
 
 //！！论坛
 //发送论坛
-//参数   name con  
+//参数   name con   village  uid  业主id
 router.post('/yzluntan',function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
-	var name=req.body["name"]
+	var lt=[]
+	var name=req.body["name"]  //马东升
 	var con=req.body["con"]
-	pool.query(`insert into forum(name,con,img) values("${name}","${con}","${imgs}")`,function(err,rows){
+	var village=req.body["village"]
+	var uid=req.body["uid"]
+	if(imgs!=null){
+	pool.query(`insert into forum(name,con,img,uid,village) values("${name}","${con}","${imgs}","${uid}","${village}")`,function(err,rows){
 			if (err) throw err;
-			if(rows){
-				res.send("上传成功")
-			}
-		})
+			imgs=null
+			
+	pool.query(`select * from forum where village="${village}"`,function(err,rows){
+		if(err) throw err;
+		for(var i in rows){
+		var a1=rows[i].help
+		if(a1!=null&&a1!=""){
+		var a2=a1.split("?")
+		if(a2.indexOf(uid)!=-1){
+		 Object.assign(rows[i],{obes:"true"})   
+		}else{
+		Object.assign(rows[i],{obes:"false"})	
+		}
+		}else{
+			Object.assign(rows[i],{obes:"false"})   
+		}
+		
+		}
+		for(var i in rows){
+			lt.unshift(rows[i])
+		}
+		res.send(lt);
+	})
+		})	
+	}else{
+	pool.query(`insert into forum(name,con,uid,village) values("${name}","${con}","${uid}","${village}")`,function(err,rows){
+			if (err) throw err;
+			imgs=null
+			
+	pool.query(`select * from forum where village="${village}"`,function(err,rows){
+		if(err) throw err;
+		for(var i in rows){
+		var a1=rows[i].help
+		if(a1!=null&&a1!=""){
+		var a2=a1.split("?")
+		if(a2.indexOf(uid)!=-1){
+		 Object.assign(rows[i],{obes:"true"})   
+		}else{
+		Object.assign(rows[i],{obes:"false"})	
+		}
+		}else{
+			Object.assign(rows[i],{obes:"false"})   
+		}
+		
+		}
+		for(var i in rows){
+			lt.unshift(rows[i])
+		}
+		res.send(lt);
+	})
+		})	
+	}
 })
 
 
 
+
+//！！业主接收论坛
+
+//参数  village 小区   uid 业主的uid
+router.post('/yzluntans',function(req,res){
+	var lunt=[]
+	res.header("Access-Control-Allow-Origin", "*");
+	var village=req.body["village"]
+	var uid=req.body["uid"]
+	pool.query(`select * from forum where village="${village}"`,function(err,rows){
+		if(err) throw err;
+		for(var i in rows){
+		var a1=rows[i].help
+		if(a1!=null&&a1!=""){
+		var a2=a1.split("?")
+		if(a2.indexOf(uid)!=-1){
+		 Object.assign(rows[i],{obes:"true"})   
+		}else{
+		Object.assign(rows[i],{obes:"false"})	
+		}
+		}else{
+			Object.assign(rows[i],{obes:"false"})   
+		}
+		
+		}
+		for(var i in rows){
+			lunt.unshift(rows[i])
+		}
+		res.send(lunt);
+	})
+})
+
+
+
+
+
+//！！业主点赞论坛
+
+//参数  village 小区   uid 业主的uid  id论坛的id
+router.post('/yzluntanzan',function(req,res){
+	var lunt=[]
+	res.header("Access-Control-Allow-Origin", "*");
+	var village=req.body["village"]
+	var uid=req.body["uid"]
+	var id=req.body["id"]
+	pool.query(`select * from forum where id="${id}"`,function(err,rows){
+		if(err) throw err;
+		var luntan=[]
+		var aa=rows[0].help
+		if(aa!=null&&aa!=""){
+		var aa1=aa.split("?")
+		if(aa1.indexOf(uid)==-1){
+		aa1.push(uid)
+		var aa2=aa1.join("?")
+		pool.query(`update forum set  help="${aa2}" where id=${id}`, function(err, rows, fields) {
+				pool.query(`select * from activity where village="${village}"`,function(err,rows){
+		if(err) throw err;
+		for(var i in rows){
+		var a1=rows[i].help
+		if(a1!=null&&a1!=""){
+		var a2=a1.split("?")
+		if(a2.indexOf(uid)!=-1){
+		 Object.assign(rows[i],{obes:"true"})   
+		}else{
+		Object.assign(rows[i],{obes:"false"})	
+		}
+		}else{
+			Object.assign(rows[i],{obes:"false"})   
+		}
+		
+		}
+		for(var i in rows){
+			luntan.unshift(rows[i])
+		}
+		res.send(luntan);
+		})
+	});	
+		}	
+		}else{
+				pool.query(`update forum set  help="${uid}" where id=${id}`, function(err, rows, fields) {
+				pool.query(`select * from forum where village="${village}"`,function(err,rows){
+		if(err) throw err;
+		for(var i in rows){
+		var a1=rows[i].help
+		if(a1!=null&&a1!=""){
+		var a2=a1.split("?")
+		if(a2.indexOf(uid)!=-1){
+		 Object.assign(rows[i],{obes:"true"})   
+		}else{
+		Object.assign(rows[i],{obes:"false"})	
+		}
+		}else{
+			Object.assign(rows[i],{obes:"false"})   
+		}
+		
+		}
+		for(var i in rows){
+			luntan.unshift(rows[i])
+		}
+		res.send(luntan);
+		})
+	});		
+		}
+	})
+})
 //router.post('/zanluntan',function(req,res){
 //	var id=req.body["id"]   //论坛的id
 //	res.header("Access-Control-Allow-Origin", "*");
