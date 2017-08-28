@@ -183,7 +183,7 @@ router.post('/yzluntanzan',function(req,res){
 		aa1.push(uid)
 		var aa2=aa1.join("?")
 		pool.query(`update forum set  help="${aa2}" where id=${id}`, function(err, rows, fields) {
-				pool.query(`select * from activity where village="${village}"`,function(err,rows){
+				pool.query(`select * from forum where village="${village}"`,function(err,rows){
 		if(err) throw err;
 		for(var i in rows){
 		var a1=rows[i].help
@@ -205,7 +205,38 @@ router.post('/yzluntanzan',function(req,res){
 		res.send(luntan);
 		})
 	});	
-		}	
+		}else{ //点击取消点赞
+		var arr=[]
+		for(var i in aa1){
+			if(aa1[i]!=uid){
+				arr.push(aa1[i])
+			}
+		}
+		var arr2=arr.join("?")
+		pool.query(`update forum set  help="${arr2}" where id=${id}`, function(err, rows, fields) {
+		pool.query(`select * from forum where village="${village}"`,function(err,rows){
+		if(err) throw err;
+		for(var i in rows){
+		var a1=rows[i].help
+		if(a1!=null&&a1!=""){
+		var a2=a1.split("?")
+		if(a2.indexOf(uid)!=-1){
+		 Object.assign(rows[i],{obes:"true"})   
+		}else{
+		Object.assign(rows[i],{obes:"false"})	
+		}
+		}else{
+			Object.assign(rows[i],{obes:"false"})   
+		}
+		
+		}
+		for(var i in rows){
+			luntan.unshift(rows[i])
+		}
+		res.send(luntan);
+		})
+	});	
+		}
 		}else{
 				pool.query(`update forum set  help="${uid}" where id=${id}`, function(err, rows, fields) {
 				pool.query(`select * from forum where village="${village}"`,function(err,rows){
@@ -233,6 +264,11 @@ router.post('/yzluntanzan',function(req,res){
 		}
 	})
 })
+
+
+
+
+
 //router.post('/zanluntan',function(req,res){
 //	var id=req.body["id"]   //论坛的id
 //	res.header("Access-Control-Allow-Origin", "*");
