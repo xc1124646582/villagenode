@@ -33,11 +33,11 @@ router.post('/wytongzhi',function(req,res){
 	var name=req.body["name"]
 	var con=req.body["con"]
 	pool.query(`insert into notice(name,con,village) values("${name}","${con}","${village}")`,function(err,rows){
-	pool.query(`select * from notice where village="${village}"`,function(err,rows){
-		if(err) throw err;
-		res.send(rows);
+			pool.query(`select * from notice where village="${village}"`,function(err,rows){
+				if(err) throw err;
+				res.send(rows);
+			})
 	})
-		})
 })
 
 

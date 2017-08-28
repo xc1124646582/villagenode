@@ -39,11 +39,11 @@ router.post('/wymailjs',function(req,res){
 //indexs   确认是否领取的
 router.post('/yzmail',function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
-    var village=req.body["village"]
-    var address=req.body["address"]
+    var village=req.body["village"];
+    var address=req.body["address"];
 		pool.query(`select * from mail where  address="${address}"  and  indexs=0 and  village="${village}"`, function(err, rows, fields) {
 		if (err) throw err;
-	  	res.send(rows)
+	  	res.send(rows);
 	});
 			
 })
