@@ -8,7 +8,7 @@ var router=express.Router();
 //参数  name 邮包的名字     village  门牌号
 router.post('/wymailtj',function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
-	var village=req.body["village"]
+	var address=req.body["address"];
 		pool.query(`SELECT * from mail where address="${address}"`, function(err, rows, fields) {
 		if (err) throw err;
 	  	res.send(rows)

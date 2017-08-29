@@ -12,13 +12,13 @@ var formidable=require('formidable');   //写入文件
 router.post('/wytongzhis',function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
 	var village=req.body["village"]
-	var aa=[]
+	var aa=[];
 	pool.query(`select * from notice where village="${village}"`,function(err,rows){
 		if(err) throw err;
 		for(var i in rows){
-			aa.unshift(rows[i])
+			aa.unshift(rows[i]);
 		}
-		res.send(aa);
+			res.send(aa);
 		})
 })
 
