@@ -32,10 +32,14 @@ router.post('/yzchaxunfw',function(req,res){
 //！！物业管理   //返回i所有业主
 router.post('/wyguanli',function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
+	var qs=[]
 	var address=req.body["address"]
 	pool.query(`select * from owner where address="${address}" and owner=1`,function(err,rows){
 		if(err) throw err;	
-	res.send(rows);
+		for(var i in rows){
+			qs.unshift(rows[i])
+		}
+		res.send(qs);
 	})
 })
 
