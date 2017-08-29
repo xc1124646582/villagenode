@@ -3,6 +3,27 @@ var mysql=require("mysql");
 var pool=require("./../config.js");
 var router=express.Router();
 
+//业主接受 报修信息  
+//参数     village  小区   con 报修问题    address门牌号
+//  village   address   从前台业主信息获取
+router.post('/yzjieshou',function(req,res){
+	res.header("Access-Control-Allow-Origin", "*");
+	var xiu=[]
+	var village=req.body["village"]  //小区
+	var address=req.body["address"]   //门牌号
+	pool.query(`SELECT * from guarantee  where  address="${address}" and indexs=0 and village="${village}"`, function(err, rows, fields) {
+		if (err) throw err;
+		for(var i in rows){
+			xiu.unshift(rows[i])
+		}
+	  	res.send(xiu)
+	});
+})
+
+
+
+
+
 //业主发送 报修请求  
 //参数     village  小区   con 报修问题    address门牌号
 //  village   address   从前台业主信息获取
