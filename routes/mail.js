@@ -8,7 +8,7 @@ var router=express.Router();
 //参数  name 邮包的名字     village  门牌号
 router.post('/wymailtj',function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
-	var village=req.body["village"]
+	var address=req.body["address"];
 		pool.query(`SELECT * from mail where address="${address}"`, function(err, rows, fields) {
 		if (err) throw err;
 	  	res.send(rows)
@@ -39,9 +39,12 @@ router.post('/wymail',function(req,res){
 router.post('/wymailjs',function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
 	var id=req.body["id"]
+	var address=req.body["address"]
 	pool.query(`update mail set  indexs=1 where id=${id}`, function(err, rows, fields) {
-		if(err) throw err;
-		res.send(rows);
+	pool.query(`select * from mail where  address="${address}"`, function(err, rows, fields) {
+		if (err) throw err;
+	  	res.send(rows);
+	});
 	});
 })
 
@@ -52,11 +55,11 @@ router.post('/wymailjs',function(req,res){
 //indexs   确认是否领取的
 router.post('/yzmail',function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
-    var village=req.body["village"]
-    var address=req.body["address"]
+    var village=req.body["village"];
+    var address=req.body["address"];
 		pool.query(`select * from mail where  address="${address}"  and  indexs=0 and  village="${village}"`, function(err, rows, fields) {
 		if (err) throw err;
-	  	res.send(rows)
+	  	res.send(rows);
 	});
 			
 })

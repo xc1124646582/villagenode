@@ -69,4 +69,20 @@ router.post('/wyzhuhu',function(req,res){
 })
 
 
+
+//！！业主添加住户
+router.post('/yztjzh',function(req,res){
+	res.header("Access-Control-Allow-Origin", "*");
+	var name=req.body["name"]
+	var family=req.body["family"]
+	var address=req.body["address"]
+	pool.query(`insert into owner(name,family,address,owner) values("${name}","${family}","${address}",0)`,function(err,rows){
+		pool.query(`select * from owner where address="${address}" and family="${family}"`,function(err,rows){
+			if(err) throw err;
+			res.send(rows);
+		})
+	})
+})
+
+
 module.exports=router;
