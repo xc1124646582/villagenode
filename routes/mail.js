@@ -6,7 +6,7 @@ var router=express.Router();
 
 //物业查询包     
 //参数  name 邮包的名字     village  门牌号
-router.post('/wymail',function(req,res){
+router.post('/wymailtj',function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
 	var village=req.body["village"]
 		pool.query(`SELECT * from mail where village="${village}"`, function(err, rows, fields) {

@@ -6,7 +6,7 @@ var router=express.Router();
 //业主接受 报修信息  
 //参数     village  小区   con 报修问题    address门牌号
 //  village   address   从前台业主信息获取
-router.post('/yzguarantee',function(req,res){
+router.post('/yzjieshou',function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
 	var xiu=[]
 	var village=req.body["village"]  //小区
