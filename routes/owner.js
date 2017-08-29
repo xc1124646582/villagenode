@@ -32,10 +32,14 @@ router.post('/yzchaxunfw',function(req,res){
 //！！物业管理   //返回i所有业主
 router.post('/wyguanli',function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
+	var qs=[]
 	var address=req.body["address"]
 	pool.query(`select * from owner where address="${address}" and owner=1`,function(err,rows){
 		if(err) throw err;	
-	res.send(rows);
+		for(var i in rows){
+			qs.unshift(rows[i])
+		}
+		res.send(qs);
 	})
 })
 
@@ -47,14 +51,14 @@ router.post('/wyguanli',function(req,res){
 router.post('/wyzhuhu',function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
 	var qs=[]
-	var village=req.body["village"]
+	var address=req.body["address"]
 	var name=req.body["name"]
 	var family=req.body["family"]
 	var phone=req.body["phone"]
 	var sex=req.body["sex"]
 	var homeyard=req.body["homeyard"]
-	pool.query(`insert into owner(name,family,village,owner,phone,sex,homeyard) values("${name}","${family}","${village}",1,"${phone}","${sex}","${homeyard}")`,function(err,rows){
-	pool.query(`select * from owner where village="${village}"`,function(err,rows){
+	pool.query(`insert into owner(name,family,address,owner,phone,sex,homeyard) values("${name}","${family}","${address}",1,"${phone}","${sex}","${homeyard}")`,function(err,rows){
+	pool.query(`select * from owner where address="${address}"`,function(err,rows){
 		if(err) throw err;
 		for(var i in rows){
 			qs.unshift(rows[i])
