@@ -65,13 +65,34 @@ router.post('/wyguarantee',function(req,res){
 
 
 
-//物业确认完成 报修请求  
-//参数     id  请求的id     
+
+//物业接收 报修请求  
+//参数     village  小区     
 router.post('/wyguarantees',function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
 	var xiu=[]
+	var village=req.body["village"]  //小区
+		pool.query(`SELECT * from guarantee  where  village="${village}" and indexs=1`, function(err, rows, fields) {
+		if (err) throw err;
+		for(var i in rows){
+			xiu.unshift(rows[i])
+		}
+	  	res.send(xiu)
+	});
+})
+
+
+
+//物业确认完成 报修请求  
+//参数     id  请求的id     
+router.post('/wyguaranteess',function(req,res){
+	res.header("Access-Control-Allow-Origin", "*");
+	var xiu=[]
 	var id=req.body["id"]  
+	var address=req.body["address"]  
+	var village=req.body["village"]  
 	pool.query(`update guarantee set  indexs=1 where id=${id}`, function(err, rows, fields) {
+		console.log(rows)
 		pool.query(`SELECT * from guarantee  where  address="${address}" and indexs=0 and village="${village}"`, function(err, rows, fields) {
 		if (err) throw err;
 		for(var i in rows){
