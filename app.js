@@ -15,7 +15,7 @@ var guarantee = require('./routes/guarantee');
 var owner = require('./routes/owner');
 var notice = require('./routes/notice');
 var activity = require('./routes/activity');
-
+var reply = require('./routes/reply');
 var app = express();
 
 // view engine setup
@@ -40,6 +40,7 @@ app.use('/owner', owner);
 app.use('/property', property);
 app.use('/notice', notice);
 app.use('/activity', activity);
+app.use('/reply', reply);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
