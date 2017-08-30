@@ -76,7 +76,8 @@ router.post('/yztjzh',function(req,res){
 	var name=req.body["name"]
 	var family=req.body["family"]
 	var address=req.body["address"]
-	pool.query(`insert into owner(name,family,address,owner) values("${name}","${family}","${address}",0)`,function(err,rows){
+	var homeyard=req.body["homeyard"]
+	pool.query(`insert into owner(name,family,address,owner,homeyard) values("${name}","${family}","${address}",0,"${homeyard}")`,function(err,rows){
 		pool.query(`select * from owner where address="${address}" and family="${family}"`,function(err,rows){
 			if(err) throw err;
 			res.send(rows);
