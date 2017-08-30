@@ -153,6 +153,25 @@ router.post('/yzhuodongs',function(req,res){
 })
 
 
+//！！业主查看活动自己参加情况
+//
+//参数     village 小区  
+router.post('/yzkzjcjdhd',function(req,res){
+	res.header("Access-Control-Allow-Origin", "*");
+	var qs=[]
+	var village=req.body["village"]
+	var id=req.body["id"]
+	pool.query(`select * from activity where village="${village}"`,function(err,rows){
+		if(err) throw err;
+		for(var i in rows){
+			if(rows[i].nums.split("?").indexOf(id)!=-1){
+				qs.unshift(rows[i])
+			}
+		}	
+		res.send(qs);
+	})
+})
+
 
 
 module.exports=router;
