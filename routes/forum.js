@@ -42,13 +42,7 @@ router.post('/img',function(req,res){
 			arr.push('http://localhost:8100/images/'+fName)
 			str=arr.join("?")   //生成图片字符串
 		}
-		 pool.query(`insert into forum(img) values('${str}')`,function(err,rows){
-		 	if (err) throw err;
-		 	if(rows){
-		 		res.send('上传成功')
-		 	}
-			
-		 })
+		 		res.send(arr)
 			 //res.send(str)  //返回的多张图片  中间用?号隔开的
 			 imgs=str
 			 
@@ -65,16 +59,14 @@ router.post('/img',function(req,res){
 router.post('/yzluntan',function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
 	var lt=[]
+	var lunt=[]
 	var name=req.body["name"]  //马东升
 	var con=req.body["con"]
 	var village=req.body["village"]
 	var uid=req.body["uid"]
-	if(imgs!=null){
-	pool.query(`insert into forum(name,con,img,uid,village) values("${name}","${con}","${imgs}","${uid}","${village}")`,function(err,rows){
-			if (err) throw err;
-			imgs=null
-			
-	pool.query(`select * from forum where village="${village}"`,function(err,rows){
+	var img=req.body["img"]
+	pool.query(`insert into forum(name,con,img,uid,village) values("${name}","${con}","${img}","${uid}","${village}")`,function(err,rows){
+		pool.query(`select * from forum where village="${village}"`,function(err,rows){
 		if(err) throw err;
 		for(var i in rows){
 		var a1=rows[i].help
@@ -91,39 +83,11 @@ router.post('/yzluntan',function(req,res){
 		
 		}
 		for(var i in rows){
-			lt.unshift(rows[i])
+			lunt.unshift(rows[i])
 		}
-		res.send(lt);
+		res.send(lunt);
 	})
-		})	
-	}else{
-	pool.query(`insert into forum(name,con,uid,village) values("${name}","${con}","${uid}","${village}")`,function(err,rows){
-			if (err) throw err;
-			imgs=null
-			
-	pool.query(`select * from forum where village="${village}"`,function(err,rows){
-		if(err) throw err;
-		for(var i in rows){
-		var a1=rows[i].help
-		if(a1!=null&&a1!=""){
-		var a2=a1.split("?")
-		if(a2.indexOf(uid)!=-1){
-		 Object.assign(rows[i],{obes:"true"})   
-		}else{
-		Object.assign(rows[i],{obes:"false"})	
-		}
-		}else{
-			Object.assign(rows[i],{obes:"false"})   
-		}
-		
-		}
-		for(var i in rows){
-			lt.unshift(rows[i])
-		}
-		res.send(lt);
 	})
-		})	
-	}
 })
 
 

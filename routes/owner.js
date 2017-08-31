@@ -86,4 +86,22 @@ router.post('/yztjzh',function(req,res){
 })
 
 
+
+//！！用户修改信息
+router.post('/yhxzxx',function(req,res){
+	res.header("Access-Control-Allow-Origin", "*");
+	var id=req.body["id"]
+	var name=req.body["name"]
+	var phone=req.body["phone"]
+	var sex=req.body["sex"]
+	var email=req.body["email"]
+	pool.query(`update owner set name="${name}",phone="${phone}",sex="${sex}",email="${email}" where id=${id}`,function(err,rows){
+		pool.query(`select * from owner where id="${id}"`,function(err,rows){
+			if(err) throw err;
+			res.send(rows);
+		})
+	})
+})
+
+
 module.exports=router;
