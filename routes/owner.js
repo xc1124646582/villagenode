@@ -76,8 +76,27 @@ router.post('/yztjzh',function(req,res){
 	var name=req.body["name"]
 	var family=req.body["family"]
 	var address=req.body["address"]
-	pool.query(`insert into owner(name,family,address,owner) values("${name}","${family}","${address}",0)`,function(err,rows){
+	var homeyard=req.body["homeyard"]
+	pool.query(`insert into owner(name,family,address,owner,homeyard) values("${name}","${family}","${address}",0,"${homeyard}")`,function(err,rows){
 		pool.query(`select * from owner where address="${address}" and family="${family}"`,function(err,rows){
+			if(err) throw err;
+			res.send(rows);
+		})
+	})
+})
+
+
+
+//！！用户修改信息
+router.post('/yhxzxx',function(req,res){
+	res.header("Access-Control-Allow-Origin", "*");
+	var id=req.body["id"]
+	var name=req.body["name"]
+	var phone=req.body["phone"]
+	var sex=req.body["sex"]
+	var email=req.body["email"]
+	pool.query(`update owner set name="${name}",phone="${phone}",sex="${sex}",email="${email}" where id=${id}`,function(err,rows){
+		pool.query(`select * from owner where id="${id}"`,function(err,rows){
 			if(err) throw err;
 			res.send(rows);
 		})
