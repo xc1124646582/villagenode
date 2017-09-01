@@ -161,4 +161,16 @@ router.post('/bosskwyrs',function(req,res){
 })
 
 
+
+//！！展示物业信息让业主评价
+router.post('/yzzhgboss',function(req,res){
+	res.header("Access-Control-Allow-Origin", "*");
+	var village=req.body["village"]
+	pool.query(`select * from property where village="${village}"`,function(err,rows){
+		if(err) throw err;
+		res.send(rows);
+	})	
+})
+
+
 module.exports=router;
