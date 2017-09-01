@@ -162,7 +162,7 @@ router.post('/bosskwyrs',function(req,res){
 
 
 
-//！！展示物业信息让业主评价
+//！！boss 添加物业信息展示
 router.post('/yzzhgboss',function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
 	var village=req.body["village"]
