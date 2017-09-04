@@ -17,4 +17,17 @@ router.post('/bossdl',function(req,res){
 })
 
 
+router.post('/bosslunt',function(req,res){
+	var lunt=[]
+	res.header("Access-Control-Allow-Origin", "*");
+	pool.query(`select * from forum`,function(err,rows){
+		if(err) throw err;
+		for(var i in rows){
+			lunt.unshift(rows[i])
+		}
+		res.send(lunt);
+	})
+})
+
+
 module.exports=router;

@@ -18,6 +18,7 @@ var activity = require('./routes/activity');
 var reply = require('./routes/reply');
 var boss = require('./routes/boss');
 var plot = require('./routes/plot');
+var code = require('./routes/code');
 var app = express();
 
 // view engine setup
@@ -45,6 +46,7 @@ app.use('/activity', activity);
 app.use('/reply', reply);
 app.use('/boss', boss);
 app.use('/plot', plot);
+app.use('/code', code);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
