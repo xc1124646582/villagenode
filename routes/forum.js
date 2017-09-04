@@ -64,8 +64,9 @@ router.post('/yzluntan',function(req,res){
 	var con=req.body["con"]
 	var village=req.body["village"]
 	var uid=req.body["uid"]
+	var toux=req.body["toux"]
 	var img=req.body["img"]
-	pool.query(`insert into forum(name,con,img,uid,village) values("${name}","${con}","${img}","${uid}","${village}")`,function(err,rows){
+	pool.query(`insert into forum(name,con,img,uid,village,toux) values("${name}","${con}","${img}","${uid}","${village}","${toux}")`,function(err,rows){
 		pool.query(`select * from forum where village="${village}"`,function(err,rows){
 		if(err) throw err;
 		for(var i in rows){
