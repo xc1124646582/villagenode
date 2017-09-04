@@ -156,4 +156,15 @@ router.post('/yhxzxx',function(req,res){
 })
 
 
+//！！根据小区查住户
+router.post('/xqydshz',function(req,res){
+	res.header("Access-Control-Allow-Origin", "*");
+	var address=req.body["address"]
+	pool.query(`select * from owner where address="${address}" and owner="1"`,function(err,rows){
+		if(err) throw err;
+		res.send(rows);
+	})
+})
+
+
 module.exports=router;

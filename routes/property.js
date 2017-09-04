@@ -303,4 +303,27 @@ router.post('/yzcpwy',function(req,res){
 
 
 
+//！！boss查看物业人数
+router.post('/bosskwyrs',function(req,res){
+	res.header("Access-Control-Allow-Origin", "*");
+	var village=req.body["village"]
+	pool.query(`select * from property where village="${village}"`,function(err,rows){
+		if(err) throw err;
+		res.send(rows);
+	})	
+})
+
+
+
+//！！boss 添加物业信息展示
+router.post('/yzzhgboss',function(req,res){
+	res.header("Access-Control-Allow-Origin", "*");
+	var village=req.body["village"]
+	pool.query(`select * from property where village="${village}"`,function(err,rows){
+		if(err) throw err;
+		res.send(rows);
+	})	
+})
+
+
 module.exports=router;
