@@ -173,4 +173,33 @@ router.post('/yzzhgboss',function(req,res){
 })
 
 
+
+//！！物业修改信息
+router.post('/wyxgxx',function(req,res){
+	res.header("Access-Control-Allow-Origin", "*");
+	var id=req.body["id"]
+	var name=req.body["name"]
+	var phone=req.body["phone"]
+	var sex=req.body["sex"]
+	var email=req.body["email"]
+	pool.query(`update property set name="${name}",phone="${phone}",sex="${sex}",email="${email}" where id=${id}`,function(err,rows){
+		pool.query(`select * from property where id="${id}"`,function(err,rows){
+			if(err) throw err;
+			res.send(rows);
+		})
+	})	
+})
+
+
+//！！物业看自己的评价
+router.post('/wyckzjdqj',function(req,res){
+	res.header("Access-Control-Allow-Origin", "*");
+	var id=req.body["id"]
+	pool.query(`select * from property where id=${id}`,function(err,rows){
+		if(err) throw err;
+		res.send(rows);
+	})	
+})
+
+
 module.exports=router;
