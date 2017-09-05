@@ -171,15 +171,18 @@ router.post('/yzhpwy',function(req,res){
 				arr2=a
 			}
 		}else{
-            arr1=uid
+			console.log("111")
+     arr1=uid
 			var arr=[]
-				for(var i in a.split("?")){
+			if(a!=null&&a!=""){
+			for(var i in a.split("?")){
 					if(a.split("?")[i]!=uid){
 						arr.push(a.split("?")[i])
 					}
-				}
+				}	
+			}
 				
-			arr1=arr.join("?")
+			arr2=arr.join("?")
 		}
 		
 		pool.query(`update property set hao="${arr1}",cha="${arr2}" where id=${id}`,function(err,rows){
@@ -256,12 +259,13 @@ router.post('/yzcpwy',function(req,res){
 		}else{
 			arr2=uid
 			var arr=[]
-			console.log(b.split("?"))
-				for(var i in b.split("?")){
+			if(b!=null&&b!=""){
+			for(var i in b.split("?")){
 					if(b.split("?")[i]!=uid){
 						arr.push(b.split("?")[i])
 					}
-				}
+				}	
+			}
 				
 			arr1=arr.join("?")
 		}
